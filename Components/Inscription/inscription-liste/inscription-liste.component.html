@@ -1,0 +1,32 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Inscriptions</h6>
+      </div>
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+            <tr class="text-white">
+              <th scope="col">#</th>
+              <th scope="col">User ID</th>
+              <th scope="col">Formation ID</th>
+              <th scope="col">Date d'Inscription</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let inscription of inscriptions; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ inscription.userId }}</td>
+              <td>{{ inscription.formationId }}</td>
+              <td>{{ inscription.dateInscription | date: 'dd/MM/yyyy' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

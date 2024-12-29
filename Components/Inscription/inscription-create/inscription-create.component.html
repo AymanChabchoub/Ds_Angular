@@ -1,0 +1,55 @@
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div *ngIf="isLoading" id="spinner" class="bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <!-- Spinner End -->
+  
+    <!-- Inscription Form Start -->
+    <div class="container-fluid">
+      <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+          <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h3 class="text-primary"><i class="fa fa-pencil me-2"></i>Créer une Inscription</h3>
+            </div>
+            <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+              <!-- Champ UserId (étudiant) -->
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="userId" formControlName="UserId" placeholder="User ID" readonly/>
+                <label for="userId">ID de l'Étudiant</label>
+                <div *ngIf="inscriptionForm.get('UserId')?.invalid && inscriptionForm.get('UserId')?.touched" class="text-danger">
+                  L'ID de l'étudiant est requis.
+                </div>
+              </div>
+  
+              <!-- Champ FormationId -->
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="formationId" formControlName="FormationId" placeholder="Formation ID" readonly/>
+                <label for="formationId">ID de la Formation</label>
+                <div *ngIf="inscriptionForm.get('FormationId')?.invalid && inscriptionForm.get('FormationId')?.touched" class="text-danger">
+                  L'ID de la formation est requis.
+                </div>
+              </div>
+  
+              <!-- Champ DateInscription -->
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="dateInscription" formControlName="DateInscription" placeholder="Date d'Inscription" />
+                <label for="dateInscription">Date d'Inscription</label>
+                <div *ngIf="inscriptionForm.get('DateInscription')?.invalid && inscriptionForm.get('DateInscription')?.touched" class="text-danger">
+                  La date d'inscription est requise.
+                </div>
+              </div>
+  
+              <!-- Bouton de soumission -->
+              <input type="submit" class="btn btn-primary py-3 w-100 mb-4" [disabled]="inscriptionForm.invalid" value="Créer" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Inscription Form End -->
+  </div>
+  

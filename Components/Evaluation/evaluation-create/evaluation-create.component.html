@@ -1,0 +1,77 @@
+<!-- evaluation.component.html -->
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div *ngIf="isLoading" id="spinner" class="bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <!-- Spinner End -->
+  
+    <!-- Register Start -->
+    <div class="container-fluid">
+      <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+          <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <a href="index.html" class="">
+                <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>Ajouter</h3>
+              </a>
+              <h3>Évaluation</h3>
+            </div>
+            <form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()">
+              <!-- Champ Commentaire -->
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="commentaire"
+                  formControlName="commentaire"
+                  placeholder="Commentaire..."
+                />
+                <label for="commentaire">Commentaire</label>
+                <div *ngIf="evaluationForm.get('commentaire')?.invalid && evaluationForm.get('commentaire')?.touched" class="text-danger">
+                  Commentaire est requis.
+                </div>
+              </div>
+  
+              <!-- Champ Formation ID -->
+              <div class="form-floating mb-3">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="formationId"
+                  formControlName="formationId"
+                  placeholder="Formation ID"
+                />
+                <label for="formationId">ID Formation</label>
+                <div *ngIf="evaluationForm.get('formationId')?.invalid && evaluationForm.get('formationId')?.touched" class="text-danger">
+                  ID Formation est requis.
+                </div>
+              </div>
+  
+              <!-- Champ Date -->
+              <div class="form-floating mb-3">
+                <input
+                  type="date"
+                  class="form-control"
+                  id="date"
+                  formControlName="date"
+                  placeholder="Date"
+                />
+                <label for="date">Date de l'évaluation</label>
+                <div *ngIf="evaluationForm.get('date')?.invalid && evaluationForm.get('date')?.touched" class="text-danger">
+                  La date est requise.
+                </div>
+              </div>
+  
+              <!-- Bouton de soumission -->
+              <input type="submit" class="btn btn-primary py-3 w-100 mb-4" [disabled]="evaluationForm.invalid" value="Créer" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Register End -->
+  </div>
+  

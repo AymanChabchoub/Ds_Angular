@@ -1,0 +1,69 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Salles</h6>
+        <mat-form-field>
+          <mat-label>Filtrer</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Salle A">
+        </mat-form-field>
+      </div>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table">
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+            <td mat-cell *matCellDef="let salle"> {{ salle.id }} </td>
+          </ng-container>
+
+          <!-- Nom Column -->
+          <ng-container matColumnDef="nom">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+            <td mat-cell *matCellDef="let salle"> {{ salle.nom }} </td>
+          </ng-container>
+
+          <!-- Capacité Column -->
+          <ng-container matColumnDef="capacite">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacité </th>
+            <td mat-cell *matCellDef="let salle"> {{ salle.capacite }} </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+            <td mat-cell *matCellDef="let salle"> {{ salle.description }} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> AjouterFormation </th>
+            <td mat-cell *matCellDef="let salle"><button class="btn btn-sm btn-primary" mat-button (click)="AddFormation(salle.id)">Ajouter Formation</button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- No Data Row -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Aucune donnée correspondant au filtre</td>
+          </tr>
+        </table>
+      </div>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Pagination"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- Spinner -->
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center vh-100">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Chargement...</span>
+  </div>
+</div>

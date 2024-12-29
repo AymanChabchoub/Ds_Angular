@@ -1,0 +1,79 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Formations</h6>
+        <mat-form-field>
+          <mat-label>Filtrer</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Sujet de la formation">
+        </mat-form-field>
+      </div>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table">
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+            <td mat-cell *matCellDef="let formation"> {{ formation.id }} </td>
+          </ng-container>
+
+          <!-- Sujet Column -->
+          <ng-container matColumnDef="sujet">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sujet </th>
+            <td mat-cell *matCellDef="let formation"> {{ formation.sujet }} </td>
+          </ng-container>
+
+          <!-- Durée Column -->
+          <ng-container matColumnDef="duree">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Durée </th>
+            <td mat-cell *matCellDef="let formation"> {{ formation.duree }} heures </td>
+          </ng-container>
+
+          <!-- Date de Début Column -->
+          <ng-container matColumnDef="dateDebut">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Début </th>
+            <td mat-cell *matCellDef="let formation"> {{ formation.dateDebut | date }} </td>
+          </ng-container>
+
+          <!-- Date de Fin Column -->
+          <ng-container matColumnDef="dateFin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Fin </th>
+            <td mat-cell *matCellDef="let formation"> {{ formation.dateFin | date }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+            <td mat-cell *matCellDef="let formation">
+              <button class="btn btn-sm btn-primary" mat-button (click)="AddEvaluation(formation.id)">
+                Ajouter Evaluation
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- No Data Row -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">Aucune donnée correspondant au filtre</td>
+          </tr>
+        </table>
+      </div>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Pagination"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- Spinner -->
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center vh-100">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Chargement...</span>
+  </div>
+</div>
