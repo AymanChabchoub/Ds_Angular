@@ -9,7 +9,7 @@ import { UpNavComponent } from '../Components/up-nav/up-nav.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../Components/Register/register.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';  // <-- Import FormsModule
 
@@ -31,6 +31,8 @@ import { FormationListComponent } from '../Components/formation/formation-list/f
 import { ListeFormateurComponent } from '../Components/Users/liste-formateur/liste-formateur.component';
 import { ListeEtudiantComponent } from '../Components/Users/liste-etudiant/liste-etudiant.component';
 import { InscriptionListeComponent } from '../Components/Inscription/inscription-liste/inscription-liste.component';
+import { AuthInterceptor } from '../_Services/user/AuthInterceptor.module';
+
 
 @NgModule({
   declarations: [
@@ -68,7 +70,10 @@ import { InscriptionListeComponent } from '../Components/Inscription/inscription
     MatInputModule,
     BrowserAnimationsModule  // <-- Add FormsModule here
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },  // Enregistrer l'intercepteur
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

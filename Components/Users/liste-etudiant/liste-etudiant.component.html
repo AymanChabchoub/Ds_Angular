@@ -16,6 +16,7 @@
               <th scope="col">Prénom</th>
               <th scope="col">Email</th>
               <th scope="col">Image</th>
+              <th scope="col">Inscription</th>
             </tr>
           </thead>
           <tbody>
@@ -33,7 +34,11 @@
                   style="width: 50px; height: 50px;"
                 />
               </td>
-
+              <td>
+                <button class="btn btn-sm btn-primary" mat-button (click)="showInscription(user.id)" >
+                  Liste inscriptions
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

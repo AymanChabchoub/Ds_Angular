@@ -48,26 +48,40 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.loginRequest.append('email', this.email);
     this.loginRequest.append('password', this.password);
+    
+    // Vérifier si la reconnaissance faciale est activée
     if (this.useFaceRecognition && this.imageFile) {
       this.loginRequest.append('imageFile', this.imageFile);
       this.loginRequest.append('useFaceRecognition', 'true');
     } else {
       this.loginRequest.append('useFaceRecognition', 'false');
     }
-
+  
+    // Appeler le service pour effectuer la requête de login
     this.authService.login(this.loginRequest).subscribe(
       (response) => {
         const currentUser = response.user;
         const authToken = response.token;
-        console.log('currentUser:', currentUser);  // Check if User is part of the response
-        console.log("response",response);
-
+  
+        console.log('Utilisateur actuel:', currentUser);
+        console.log('Jeton de réponse:', authToken);
+  
+        // Stocker les informations dans le localStorage
         this.authService.storeUserData(authToken, currentUser);
+  
+        // Rediriger vers la page d'accueil ou une autre page après la connexion
+        if(currentUser.role===1)
+          this.router.navigate(['formation_liste_formateur',currentUser.id]);
+        else if (currentUser.role===0)
+          this.router.navigate(['formation_list'])
+        else
+          this.router.navigate(['dashboard'])
       },
       (error) => {
-        console.error('Login failed', error);
-        alert('Login failed! Please check your credentials.');
+        console.error('Échec de la connexion', error);
+        alert('Échec de la connexion ! Veuillez vérifier vos informations de connexion.');
       }
     );
   }
+  
 }

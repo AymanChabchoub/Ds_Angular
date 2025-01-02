@@ -6,27 +6,64 @@
     <div class="bg-secondary text-center rounded p-4">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h6 class="mb-0">Liste des Inscriptions</h6>
+        <mat-form-field>
+          <mat-label>Filtrer</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. User ID">
+        </mat-form-field>
       </div>
       <div class="table-responsive">
-        <table class="table text-start align-middle table-bordered table-hover mb-0">
-          <thead>
-            <tr class="text-white">
-              <th scope="col">#</th>
-              <th scope="col">User ID</th>
-              <th scope="col">Formation ID</th>
-              <th scope="col">Date d'Inscription</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let inscription of inscriptions; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ inscription.userId }}</td>
-              <td>{{ inscription.formationId }}</td>
-              <td>{{ inscription.dateInscription | date: 'dd/MM/yyyy' }}</td>
-            </tr>
-          </tbody>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table">
+
+          <!-- Index Column -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+          </ng-container>
+
+          <!-- User ID Column -->
+          <ng-container matColumnDef="userId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> User ID </th>
+            <td mat-cell *matCellDef="let inscription">{{ inscription.userId }}</td>
+          </ng-container>
+
+          <!-- Formation ID Column -->
+          <ng-container matColumnDef="formationId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Formation ID </th>
+            <td mat-cell *matCellDef="let inscription">{{ inscription.formationId }}</td>
+          </ng-container>
+
+          <!-- Date d'Inscription Column -->
+          <ng-container matColumnDef="dateInscription">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date d'Inscription </th>
+            <td mat-cell *matCellDef="let inscription">{{ inscription.dateInscription | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="action" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+            <td mat-cell *matCellDef="let inscription">
+              <button *ngIf="userId" class="btn btn-sm btn-primary" mat-button (click)="deleteInscription(inscription.id)">
+                Desinscription
+              </button>
+            </td>
+            
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- No Data Row -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Aucune donnée correspondant au filtre</td>
+          </tr>
         </table>
       </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
     </div>
+  </div>
+</div>
+
+<!-- Spinner -->
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center vh-100">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Chargement...</span>
   </div>
 </div>
