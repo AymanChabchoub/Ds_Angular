@@ -5,6 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Salle } from '../../../models/Salle.model';
 import { SalleService } from '../../../_Services/Salle/salle.service';
 import { Router } from '@angular/router';
+import { User } from '../../../models/user.model';
+import { UserService } from '../../../_Services/user/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import {ConfirmDeleteComponent} from '../../confirm-delete/confirm-delete.component'
 
 @Component({
   selector: 'app-salle-list',
@@ -12,22 +16,32 @@ import { Router } from '@angular/router';
   styleUrls: ['./salle-list.component.css'],
 })
 export class SalleListComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'nom', 'capacite', 'description','action'];
+  displayedColumns: string[] = [];
   dataSource: MatTableDataSource<Salle> = new MatTableDataSource<Salle>();
   isLoading: boolean = true;
+  currentUser: User | null = null;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private salleService: SalleService,private router:Router) {}
+  constructor(private salleService: SalleService,private router:Router,private userService:UserService,private dialog:MatDialog) {}
 
   ngOnInit(): void {
     this.fetchSalles();
+    this.currentUser=this.userService.getCurrentUser();
+    this.displayedColumns = ['id', 'nom', 'capacite', 'description', 'action'];
+  if (this.isAdmin()) {
+    this.displayedColumns.push('modifier', 'supprimer');
+  }
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+  isAdmin(): boolean {
+    return this.currentUser?.role === 2;
   }
 
   fetchSalles(): void {
@@ -59,5 +73,18 @@ export class SalleListComponent implements AfterViewInit {
   navigateTo(path:string)
   {
     this.router.navigate([path])
+  }
+  open(id: number): void {
+    let dialogRef = this.dialog.open(ConfirmDeleteComponent, {
+      height: '200px',
+      width: '300px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.salleService.deleteSalle(id).subscribe((data) => {
+          window.location.reload();
+        });
+      }
+    });
   }
 }

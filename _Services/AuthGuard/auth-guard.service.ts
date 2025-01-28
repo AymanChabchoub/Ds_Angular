@@ -26,7 +26,7 @@ export class AuthGuardService implements CanActivate {
     }
 
     // Rediriger vers la page de login si l'accès est refusé
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
     return false;  // Refuser l'accès
   }
 }

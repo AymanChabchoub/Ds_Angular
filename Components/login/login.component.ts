@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 3000);
+    
   }
 
   loginRequest: FormData = new FormData();
@@ -46,19 +47,21 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.loginRequest.append('email', this.email);
-    this.loginRequest.append('password', this.password);
-    
-    // Vérifier si la reconnaissance faciale est activée
+    const loginRequest = new FormData(); // Create FormData for file upload
+  
+    loginRequest.append('email', this.email);
+    loginRequest.append('password', this.password);
+  
+    // Include face recognition data if enabled
     if (this.useFaceRecognition && this.imageFile) {
-      this.loginRequest.append('imageFile', this.imageFile);
-      this.loginRequest.append('useFaceRecognition', 'true');
+      loginRequest.append('imageFile', this.imageFile);
+      loginRequest.append('useFaceRecognition', 'true');
     } else {
-      this.loginRequest.append('useFaceRecognition', 'false');
+      loginRequest.append('useFaceRecognition', 'false');
     }
   
-    // Appeler le service pour effectuer la requête de login
-    this.authService.login(this.loginRequest).subscribe(
+    // Call the login service
+    this.authService.login(loginRequest).subscribe(
       (response) => {
         const currentUser = response.user;
         const authToken = response.token;
@@ -66,16 +69,16 @@ export class LoginComponent implements OnInit {
         console.log('Utilisateur actuel:', currentUser);
         console.log('Jeton de réponse:', authToken);
   
-        // Stocker les informations dans le localStorage
+        // Store user data and token
         this.authService.storeUserData(authToken, currentUser);
   
-        // Rediriger vers la page d'accueil ou une autre page après la connexion
-        if(currentUser.role===1)
-          this.router.navigate(['formation_liste_formateur',currentUser.id]);
-        else if (currentUser.role===0)
-          this.router.navigate(['formation_list'])
+        // Redirect based on role
+        if (currentUser.role === 1)
+          this.router.navigate(['formation_liste_formateur', currentUser.id]);
+        else if (currentUser.role === 0)
+          this.router.navigate(['formation_list']);
         else
-          this.router.navigate(['dashboard'])
+          this.router.navigate(['dashboard']);
       },
       (error) => {
         console.error('Échec de la connexion', error);
@@ -83,5 +86,6 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+  
   
 }

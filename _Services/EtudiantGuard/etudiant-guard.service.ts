@@ -20,8 +20,8 @@ export class EtudiantGuardService {
   
       // Vérifier si l'utilisateur est connecté et a un rôle valide
       if (user && user.role !== undefined) {
-        if ((typeof user.role === 'string' && (user.role === 'admin' || user.role === 'etudiant')) ||
-            (typeof user.role === 'number' && (user.role === 2 || user.role === 0))) {
+        if ((typeof user.role === 'string' && ( user.role === 'etudiant')) ||
+            (typeof user.role === 'number' && ( user.role === 0))) {
           return true;  // L'utilisateur est autorisé
         }
       }

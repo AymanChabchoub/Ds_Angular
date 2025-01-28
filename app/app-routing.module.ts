@@ -16,6 +16,9 @@ import { InscriptionCreateComponent } from '../Components/Inscription/inscriptio
 import { ListeFormateurComponent } from '../Components/Users/liste-formateur/liste-formateur.component';
 import { ListeEtudiantComponent } from '../Components/Users/liste-etudiant/liste-etudiant.component';
 import { InscriptionListeComponent } from '../Components/Inscription/inscription-liste/inscription-liste.component';
+import { AuthGuardService } from '../_Services/AuthGuard/auth-guard.service';
+import { EnseignantGuardService } from '../_Services/EnseignantGuard/enseignant-guard.service';
+import { EtudiantGuardService } from '../_Services/EtudiantGuard/etudiant-guard.service';
 
 
 const routes: Routes = [
@@ -24,19 +27,23 @@ const routes: Routes = [
   { path: 'formation_create/:id', component: FormationComponent },
   { path: 'evaluation_create/:id', component: EvaluationCreateComponent },
   { path: 'inscription_create/:id', component: InscriptionCreateComponent },
-  { path: 'formation_liste_formateur/:id', component: FormationFormateurComponent},
+  { path: 'formation_liste_formateur/:id', component: FormationFormateurComponent,canActivate:[EnseignantGuardService]},
   { path:'formateur_list',component:ListeFormateurComponent},
   { path:'formation_list',component:FormationListComponent},
-  {path:'users',component:ListeUsersComponent},
-  {path:'salle_create',component:SalleCreateComponent},
-  {path:'dashboard',component:DashboardComponent},
+  {path:'users',component:ListeUsersComponent,canActivate:[AuthGuardService]},
+  {path:'salle_create',component:SalleCreateComponent,canActivate:[AuthGuardService]},
+  {path:'salle_create/:salleId',component:SalleCreateComponent,canActivate:[AuthGuardService]},
+
+  {path:'dashboard',component:DashboardComponent,canActivate:[AuthGuardService]},
   {path :'left',component:LeftNavComponent},
   {path:'up',component:UpNavComponent},
-  {path:'salle_list',component:SalleListComponent},
-  {path:'etudiant_list',component:ListeEtudiantComponent},
-  { path: 'inscription_list', component: InscriptionListeComponent },
+  {path:'salle_list',component:SalleListComponent,canActivate:[EnseignantGuardService]},
+  {path:'salle_list_admin',component:SalleListComponent,canActivate:[AuthGuardService]},
 
-  { path: 'inscription_list/:userId', component: InscriptionListeComponent }
+  {path:'etudiant_list',component:ListeEtudiantComponent},
+  { path: 'inscription_list', component: InscriptionListeComponent,canActivate:[AuthGuardService] },
+
+  { path: 'inscription_list/:userId', component: InscriptionListeComponent,canActivate:[EtudiantGuardService] }
   
 
 

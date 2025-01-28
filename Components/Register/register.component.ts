@@ -83,7 +83,10 @@ export class RegisterComponent implements OnInit {
 
   openModal(title: string, message: string, isError: boolean): void {
     this.dialog.open(ModalComponent, {
+      height:'600px',
+      width:'600px',
       data: { title, message, isError }
     });
   }
+  
 }

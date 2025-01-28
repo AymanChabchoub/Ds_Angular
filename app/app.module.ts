@@ -12,6 +12,8 @@ import { RegisterComponent } from '../Components/Register/register.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';  // <-- Import FormsModule
+import { NgChartsModule } from 'ng2-charts';
+
 
 import { ModalComponent } from '../Components/modal/modal.component';
 import { FormationComponent } from '../Components/formation/Create/formation.component';
@@ -32,6 +34,7 @@ import { ListeFormateurComponent } from '../Components/Users/liste-formateur/lis
 import { ListeEtudiantComponent } from '../Components/Users/liste-etudiant/liste-etudiant.component';
 import { InscriptionListeComponent } from '../Components/Inscription/inscription-liste/inscription-liste.component';
 import { AuthInterceptor } from '../_Services/user/AuthInterceptor.module';
+import { ConfirmDeleteComponent } from '../Components/confirm-delete/confirm-delete.component';
 
 
 @NgModule({
@@ -54,6 +57,7 @@ import { AuthInterceptor } from '../_Services/user/AuthInterceptor.module';
     ListeFormateurComponent,
     ListeEtudiantComponent,
     InscriptionListeComponent,
+    ConfirmDeleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +67,7 @@ import { AuthInterceptor } from '../_Services/user/AuthInterceptor.module';
     HttpClientModule,
     MatDialogModule,
     FormsModule,
+    NgChartsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,

@@ -39,4 +39,9 @@ export class InscriptionService {
   deleteInscription(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  // Récupérer les inscriptions par FormationId
+  getInscriptionsByFormationId(formationId: any): Observable<Inscription[]> {
+    return this.http.get<Inscription[]>(`${this.apiUrl}/InscriptionsByFormation/${formationId}`);
+  }
+
 }
